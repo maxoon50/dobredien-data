@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon ./dist/server.js"
   },
   "repository": {
     "type": "git",
@@ -15,5 +16,19 @@
   "bugs": {
     "url": "https://github.com/maxoon50/dobredien-data/issues"
   },
-  "homepage": "https://github.com/maxoon50/dobredien-data#readme"
+  "homepage": "https://github.com/maxoon50/dobredien-data#readme",
+  "dependencies": {
+    "@types/express": "^4.11.1",
+    "body-parser": "^1.18.2",
+    "express": "^4.16.3",
+    "knex": "^0.14.6",
+    "method-override": "^2.3.10",
+    "mongoose": "^5.0.16",
+    "morgan": "^1.9.0",
+    "nodemon": "^1.17.3",
+    "typescript": "^2.8.3"
+  },
+  "devDependencies": {
+    "@types/node": "^10.0.0"
+  }
 }
