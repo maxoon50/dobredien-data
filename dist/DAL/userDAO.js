@@ -27,14 +27,14 @@ class UserDAO {
         /////////// /////////// /////////// /////////// /////////// /////////// /////////// /////////// ///////////
         this.getById = (id) => {
             return new Promise((resolve, reject) => {
-                connexion(TABLE).where('id', id)
+                connexion(TABLE).where('id_user', id)
                     .then((result) => {
                     if (result.length) {
                         let r = result[0];
                         let user = new User_1.User(r.pseudo, r.password, r.id_user);
                         resolve(user);
                     }
-                    reject('not found');
+                    reject('not found bb');
                 }).catch((error) => {
                     reject(error);
                 });
