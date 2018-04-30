@@ -18,7 +18,7 @@ class UserDAO {
                         }
                         resolve(retval);
                     }
-                    reject('not found');
+                    reject({ error: 'not found' });
                 }).catch((error) => {
                     reject(error);
                 });
@@ -34,7 +34,7 @@ class UserDAO {
                         let user = new User_1.User(r.pseudo, r.password, r.id_user);
                         resolve(user);
                     }
-                    reject('not found bb');
+                    reject({ error: 'not found' });
                 }).catch((error) => {
                     reject(error);
                 });
@@ -50,7 +50,7 @@ class UserDAO {
                         let user = new User_1.User(r.pseudo, r.password, r.id_user);
                         resolve(user);
                     }
-                    reject('not found');
+                    reject({ error: 'not found' });
                 }).catch((error) => {
                     reject(error);
                 });
@@ -66,7 +66,7 @@ class UserDAO {
                         let user = new User_1.User(r.pseudo, r.password, r.id_user);
                         resolve(user);
                     }
-                    reject('not found');
+                    reject({ error: 'not found' });
                 }).catch((error) => {
                     reject(error);
                 });
@@ -88,6 +88,27 @@ class UserDAO {
                     reject('not found');
                 }).catch((error) => {
                     reject(error);
+                });
+            });
+        };
+        /////////// /////////// /////////// /////////// /////////// /////////// /////////// /////////// ///////////
+        this.authenticate = (req) => {
+            return new Promise((resolve, reject) => {
+                if (req.body.pseudo == null || req.body.password == null) {
+                    reject({ error: 'pseudo ou password non renseignés' });
+                }
+                connexion(TABLE).where('pseudo', req.body.pseudo)
+                    .then((result) => {
+                    if (result.length) {
+                        let r = result[0];
+                        if (r.password == req.body.password) {
+                            let user = new User_1.User(r.pseudo, r.password, r.id_user);
+                            resolve(user);
+                        }
+                    }
+                    reject({ error: 'not found' });
+                }).catch((error) => {
+                    reject({ error });
                 });
             });
         };

@@ -7,9 +7,17 @@ exports.routerUser = routerUser;
 routerUser.get('/', function (req, res) {
     let dao = new userDAO_1.UserDAO();
     dao.getAll().then((result) => {
-        console.log(result);
+        res.send(result);
     }).catch((error) => {
-        console.log('error : ' + error);
+        res.send(error);
+    });
+});
+routerUser.post('/authenticate', function (req, res) {
+    let dao = new userDAO_1.UserDAO();
+    dao.authenticate(req).then((result) => {
+        res.send(result);
+    }).catch((error) => {
+        res.send(error);
     });
 });
 /*
@@ -20,16 +28,16 @@ routerUser.get('/:arg', function (req, res) {
     let arg = req.params.arg;
     if (isNaN(arg)) {
         dao.getByPseudo(arg).then((result) => {
-            console.log(result);
+            res.send(result);
         }).catch((error) => {
-            console.log('error : ' + error);
+            res.send(error);
         });
     }
     else {
         dao.getById(arg).then((result) => {
-            console.log(result);
+            res.send(result);
         }).catch((error) => {
-            console.log('error : ' + error);
+            res.send(error);
         });
     }
 });
