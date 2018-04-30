@@ -12,14 +12,6 @@ routerUser.get('/', function (req, res) {
         res.send(error);
     });
 });
-routerUser.post('/authenticate', function (req, res) {
-    let dao = new userDAO_1.UserDAO();
-    dao.authenticate(req).then((result) => {
-        res.send(result);
-    }).catch((error) => {
-        res.send(error);
-    });
-});
 /*
 Renvoie un user, check selon le type d'argument (number ou string) si getById ou getByName
  */
