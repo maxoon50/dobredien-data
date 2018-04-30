@@ -7,7 +7,6 @@ exports.routerAuth = routerAuth;
 routerAuth.post('/', function (req, res) {
     let dao = new userDAO_1.UserDAO();
     dao.authenticate(req).then((result) => {
-        console.log(result);
         res.send(result);
     }).catch((error) => {
         res.send(error);

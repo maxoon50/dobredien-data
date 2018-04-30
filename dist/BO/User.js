@@ -1,9 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 class User {
-    constructor(pPseudo, pPassword, pId) {
+    constructor(pPseudo, pId) {
         this._pseudo = pPseudo;
-        this._password = pPassword;
         this._id = pId;
     }
     get pseudo() {
@@ -11,12 +10,6 @@ class User {
     }
     set pseudo(value) {
         this._pseudo = value;
-    }
-    get password() {
-        return this._password;
-    }
-    set password(value) {
-        this._password = value;
     }
     get id() {
         return this._id;

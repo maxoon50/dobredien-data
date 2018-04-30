@@ -15,7 +15,7 @@ class UserDAO {
                         let retval = [];
                         for (var i = 0; i < result.length; i++) {
                             let r = result[i];
-                            let user = new User_1.User(r.pseudo, r.password, r.id_user);
+                            let user = new User_1.User(r.pseudo, r.id_user);
                             retval.push(user);
                         }
                         resolve(retval);
@@ -33,7 +33,7 @@ class UserDAO {
                     .then((result) => {
                     if (result.length) {
                         let r = result[0];
-                        let user = new User_1.User(r.pseudo, r.password, r.id_user);
+                        let user = new User_1.User(r.pseudo, r.id_user);
                         resolve(user);
                     }
                     reject({ error: 'not found' });
@@ -49,7 +49,7 @@ class UserDAO {
                     .then((result) => {
                     if (result.length) {
                         let r = result[0];
-                        let user = new User_1.User(r.pseudo, r.password, r.id_user);
+                        let user = new User_1.User(r.pseudo, r.id_user);
                         resolve(user);
                     }
                     reject({ error: 'not found' });
@@ -65,7 +65,7 @@ class UserDAO {
                     .then((result) => {
                     if (result.length) {
                         let r = result[0];
-                        let user = new User_1.User(r.pseudo, r.password, r.id_user);
+                        let user = new User_1.User(r.pseudo, r.id_user);
                         resolve(user);
                     }
                     reject({ error: 'not found' });
@@ -84,7 +84,7 @@ class UserDAO {
                     .then((result) => {
                     if (result.length) {
                         let r = result[0];
-                        let user = new User_1.User(r.pseudo, r.password, r.id_user);
+                        let user = new User_1.User(r.pseudo, r.id_user);
                         resolve(user);
                     }
                     reject('not found');
@@ -104,12 +104,12 @@ class UserDAO {
                     if (result.length) {
                         let r = result[0];
                         if (r.password == req.body.password) {
-                            let user = new User_1.User(r.pseudo, r.password, r.id_user);
+                            let user = new User_1.User(r.pseudo, r.id_user);
                             const payload = { user: user };
                             let token = jwt.sign({ exp: Math.floor(Date.now() / 1000) + (60 * 60),
                                 payload
                             }, config.secretToken);
-                            resolve({ user: user, token: payload });
+                            resolve({ user: user, token });
                         }
                     }
                     reject({ error: 'not found' });
