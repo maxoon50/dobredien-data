@@ -18,6 +18,9 @@ routerToken.use('*', (req, res, next) => {
         });
     }
     else {
+        if (req.method === 'OPTIONS') {
+            return res.status(200).send();
+        }
         return res.status(403).send({
             success: false,
             message: 'No token provided.'
