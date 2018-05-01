@@ -1,10 +1,9 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const User_1 = require("../BO/User");
-const jwt = require('jsonwebtoken');
+const TokenProvider_1 = require("../Utils/TokenProvider");
 let connexion = require('./knexImpl');
 const TABLE = 'users';
-let config = require("../../config.json");
 class UserDAO {
     constructor() {
         this.getAll = () => {
@@ -105,11 +104,8 @@ class UserDAO {
                         let r = result[0];
                         if (r.password == req.body.password) {
                             let user = new User_1.User(r.pseudo, r.id_user);
-                            const payload = { user: user };
-                            let token = jwt.sign({ exp: Math.floor(Date.now() / 1000) + (60 * 60),
-                                payload
-                            }, config.secretToken);
-                            resolve({ user: user, token });
+                            const payload = { user };
+                            resolve({ user: user, token: TokenProvider_1.TokenProvider.getToken(payload) });
                         }
                     }
                     reject({ error: 'not found' });
