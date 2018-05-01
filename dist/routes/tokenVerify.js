@@ -10,7 +10,10 @@ routerToken.use('*', (req, res, next) => {
     if (token) {
         jwt.verify(token, config.secretToken, function (err) {
             if (err) {
-                return res.json({ success: false, message: 'Failed to authenticate token.' });
+                return res.status(401).send({
+                    success: false,
+                    message: 'Expired token'
+                });
             }
             else {
                 next();
@@ -21,7 +24,7 @@ routerToken.use('*', (req, res, next) => {
         if (req.method === 'OPTIONS') {
             return res.status(200).send();
         }
-        return res.status(403).send({
+        return res.status(401).send({
             success: false,
             message: 'No token provided.'
         });
