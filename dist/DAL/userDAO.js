@@ -14,7 +14,7 @@ class UserDAO {
                         let retval = [];
                         for (var i = 0; i < result.length; i++) {
                             let r = result[i];
-                            let user = new User_1.User(r.pseudo, r.id_user);
+                            let user = new User_1.User(r.pseudo, r.id_user, r.online);
                             retval.push(user);
                         }
                         resolve(retval);
@@ -32,7 +32,7 @@ class UserDAO {
                     .then((result) => {
                     if (result.length) {
                         let r = result[0];
-                        let user = new User_1.User(r.pseudo, r.id_user);
+                        let user = new User_1.User(r.pseudo, r.id_user, r.online);
                         resolve(user);
                     }
                     reject({ error: 'not found' });
@@ -48,7 +48,7 @@ class UserDAO {
                     .then((result) => {
                     if (result.length) {
                         let r = result[0];
-                        let user = new User_1.User(r.pseudo, r.id_user);
+                        let user = new User_1.User(r.pseudo, r.id_user, false);
                         resolve(user);
                     }
                     reject({ error: 'not found' });
@@ -64,7 +64,7 @@ class UserDAO {
                     .then((result) => {
                     if (result.length) {
                         let r = result[0];
-                        let user = new User_1.User(r.pseudo, r.id_user);
+                        let user = new User_1.User(r.pseudo, r.id_user, false);
                         resolve(user);
                     }
                     reject({ error: 'not found' });
@@ -83,7 +83,7 @@ class UserDAO {
                     .then((result) => {
                     if (result.length) {
                         let r = result[0];
-                        let user = new User_1.User(r.pseudo, r.id_user);
+                        let user = new User_1.User(r.pseudo, r.id_user, r.online());
                         resolve(user);
                     }
                     reject('not found');
@@ -103,14 +103,28 @@ class UserDAO {
                     if (result.length) {
                         let r = result[0];
                         if (r.password == req.body.password) {
-                            let user = new User_1.User(r.pseudo, r.id_user);
+                            let user = new User_1.User(r.pseudo, r.id_user, true);
                             const payload = { user };
+                            this.setOnline(user.id).then((nbreRows) => {
+                                console.log(nbreRows);
+                            });
                             resolve({ user: user, token: TokenProvider_1.TokenProvider.getToken(payload) });
                         }
                     }
                     reject({ error: 'not found' });
                 }).catch((error) => {
                     reject({ error });
+                });
+            });
+        };
+        this.setOnline = (id) => {
+            return new Promise((resolve, reject) => {
+                connexion(TABLE).where('id_user', id)
+                    .update({ online: true })
+                    .then((result) => {
+                    resolve(result);
+                }).catch((error) => {
+                    reject(error);
                 });
             });
         };

@@ -21,7 +21,7 @@ io.on('connection', function (socket) {
     socket.emit('msg', { msg: 'Welcome bro!' });
     socket.on('msg', function (msg) {
         console.log(msg);
-        socket.emit('msg', { msg: "you sent : " + msg });
+        socket.emit('msg', { msg: "message from : " + msg.From + " content : " + msg.content });
     });
     console.log('ok connecté bb');
 });
