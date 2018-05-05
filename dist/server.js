@@ -23,6 +23,13 @@ io.on('connection', function (socket) {
         console.log(msg);
         socket.emit('msg', { msg: "message from : " + msg.From + " content : " + msg.content });
     });
+    socket.on('userLogout', (user) => {
+        socket.broadcast.emit('userLogout', { user });
+        //a faire => enregistrer logout en bdd
+    });
+    socket.on('userLogin', (user) => {
+        socket.broadcast.emit('userLogin', { user });
+    });
     console.log('ok connecté bb');
 });
 app.all('*', function (req, res, next) {
