@@ -105,9 +105,6 @@ class UserDAO {
                         if (r.password == req.body.password) {
                             let user = new User_1.User(r.pseudo, r.id_user, true);
                             const payload = { user };
-                            this.setOnline(user.id).then((nbreRows) => {
-                                console.log(nbreRows);
-                            });
                             resolve({ user: user, token: TokenProvider_1.TokenProvider.getToken(payload) });
                         }
                     }
@@ -117,10 +114,10 @@ class UserDAO {
                 });
             });
         };
-        this.setOnline = (id) => {
+        this.setOnline = (id, online) => {
             return new Promise((resolve, reject) => {
                 connexion(TABLE).where('id_user', id)
-                    .update({ online: true })
+                    .update({ online })
                     .then((result) => {
                     resolve(result);
                 }).catch((error) => {
