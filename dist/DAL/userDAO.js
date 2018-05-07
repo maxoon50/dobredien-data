@@ -115,10 +115,32 @@ class UserDAO {
             });
         };
         this.setOnline = (id, online) => {
+            if (online) {
+                return new Promise((resolve, reject) => {
+                    connexion(TABLE).where('id_user', id)
+                        .update({
+                        online,
+                        'connectionnbr': connexion.raw('connectionnbr + 1')
+                    })
+                        .returning('*')
+                        .then((result) => {
+                        console.log('knex=>' + result);
+                        resolve(result);
+                    }).catch((error) => {
+                        reject(error);
+                    });
+                });
+            }
             return new Promise((resolve, reject) => {
                 connexion(TABLE).where('id_user', id)
-                    .update({ online })
+                    .decrement('connectionNbr', 1)
+                    .update({
+                    online,
+                    'connectionnbr': connexion.raw('connectionnbr - 1')
+                })
+                    .returning('*')
                     .then((result) => {
+                    console.log(result);
                     resolve(result);
                 }).catch((error) => {
                     reject(error);
