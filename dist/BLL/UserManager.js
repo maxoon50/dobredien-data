@@ -4,6 +4,9 @@ class UserManager {
     constructor() {
         this._userList = [];
     }
+    static get Instance() {
+        return this._instance || (this._instance = new this());
+    }
     get userList() {
         return this._userList;
     }
@@ -18,6 +21,7 @@ class UserManager {
         if (!isAlreadyOnline) {
             this._userList.push(pUser);
         }
+        console.log(this._userList);
     }
     removeUser(pUser) {
         let haveMultipleConnection = false;
@@ -32,6 +36,7 @@ class UserManager {
                 return user['_id'] != pUser['_id'];
             });
         }
+        console.log(this._userList);
     }
 }
 exports.UserManager = UserManager;
