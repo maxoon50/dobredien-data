@@ -114,6 +114,11 @@ class UserDAO {
                 });
             });
         };
+        /////////// /////////// /////////// /////////// /////////// /////////// /////////// /////////// ///////////
+        /*
+        this function check on logout, if users still have another connections opened.
+        if it is the case => call setJustOnline
+         */
         this.setOnline = (id, online) => {
             if (online) {
                 return new Promise((resolve, reject) => {
@@ -124,8 +129,7 @@ class UserDAO {
                     })
                         .returning('*')
                         .then((result) => {
-                        console.log('knex=>' + result);
-                        resolve(result);
+                        resolve(result[0]);
                     }).catch((error) => {
                         reject(error);
                     });
@@ -133,15 +137,35 @@ class UserDAO {
             }
             return new Promise((resolve, reject) => {
                 connexion(TABLE).where('id_user', id)
-                    .decrement('connectionNbr', 1)
+                    .decrement('connectionnbr', 1)
                     .update({
                     online,
                     'connectionnbr': connexion.raw('connectionnbr - 1')
                 })
                     .returning('*')
                     .then((result) => {
+                    if (result[0].connectionnbr > 0) {
+                        console.log('il reste des users connectés!!');
+                        result[0].online = true;
+                    }
+                    resolve(result[0]);
+                }).catch((error) => {
+                    reject(error);
+                });
+            });
+        };
+        /////////// /////////// /////////// /////////// /////////// /////////// /////////// /////////// ///////////
+        this.setJustOnline = (id) => {
+            return new Promise((resolve, reject) => {
+                connexion(TABLE).where('id_user', id)
+                    .update({
+                    online: true
+                })
+                    .returning('*')
+                    .then((result) => {
+                    console.log('ok bb');
                     console.log(result);
-                    resolve(result);
+                    resolve(result[0]);
                 }).catch((error) => {
                     reject(error);
                 });
