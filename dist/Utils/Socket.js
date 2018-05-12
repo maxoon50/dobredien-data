@@ -5,7 +5,7 @@ const UserManager_1 = require("../BLL/UserManager");
 class Socket {
     static listen(server) {
         const io = socketIO(server);
-        const userManager = UserManager_1.UserManager.Instance;
+        const userManager = new UserManager_1.UserManager();
         io.on('connection', function (socket) {
             socket.on('userLogout', (user) => {
                 socket.broadcast.emit('userLogout', { user });
