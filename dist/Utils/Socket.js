@@ -9,14 +9,12 @@ class Socket {
         io.on('connection', function (socket) {
             socket.on('userLogout', (user) => {
                 socket.broadcast.emit('userLogout', { user });
-                console.log('logout');
-                console.log(user);
+                console.log('logout => ' + user);
                 userManager.removeUser(user);
             });
             socket.on('userLogin', (user) => {
                 socket.broadcast.emit('userLogin', { user });
-                console.log('login');
-                console.log(user);
+                console.log('login => ' + user);
                 userManager.addUser(user);
             });
         });

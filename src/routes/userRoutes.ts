@@ -1,8 +1,10 @@
 import express = require('express');
 import {UserDAO} from "../DAL/userDAO";
 import {User} from "../BO/User";
+import {UserManager} from "../BLL/UserManager";
 let routerUser = express.Router();
 
+//retourne tous les users
 routerUser.get('/', function (req, res) {
     let dao  = new UserDAO();
 
@@ -11,6 +13,13 @@ routerUser.get('/', function (req, res) {
     }).catch((error) => {
         res.send(error);
     });
+});
+
+//retourne tous les users onlines
+routerUser.get('/onlines', function (req, res) {
+    let userManager = new UserManager();
+    let listeUsersOnline = userManager.userList;
+    res.send(JSON.stringify(listeUsersOnline));
 });
 
 
